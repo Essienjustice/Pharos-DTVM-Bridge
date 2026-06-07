@@ -1,0 +1,25 @@
+[package]
+name = "pharos-wasm-counter"
+version = "0.1.0"
+edition = "2021"
+license = "MIT-0"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = []
+export-abi = ["stylus-sdk/export-abi"]
+contract-client-gen = []
+
+[dependencies]
+alloy-primitives = { version = "1.6", default-features = false }
+alloy-sol-types = { version = "1.6", default-features = false }
+stylus-sdk = { version = "0.10", default-features = false, features = ["export-abi"] }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "z"
+panic = "abort"
+strip = true

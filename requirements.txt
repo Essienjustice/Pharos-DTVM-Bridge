@@ -1,0 +1,5 @@
+eth-account>=0.11,<1
+eth-utils>=4,<5
+python-dotenv>=1,<2
+setuptools>=70,<82
+web3>=6,<8

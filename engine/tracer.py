@@ -31,6 +31,7 @@ def trace_cross_vm_call(
             cross_vm_boundary_detected=False,
             failure_class=str(failure["error_type"]),
             failure_detail=str(failure["explanation"]),
+            detail=str(failure["explanation"]),
             failure=failure,
         )
 
@@ -47,6 +48,7 @@ def trace_cross_vm_call(
             cross_vm_boundary_detected=bool(call_tree.get("calls")),
             failure_class=str(failure["error_type"]),
             failure_detail=str(failure["explanation"]),
+            detail=str(failure["explanation"]),
             failure=failure,
         )
 
@@ -57,4 +59,5 @@ def trace_cross_vm_call(
         cross_vm_boundary_detected=bool(call_tree.get("calls")),
         failure_class=None,
         failure_detail=None,
+        detail=None,
     )

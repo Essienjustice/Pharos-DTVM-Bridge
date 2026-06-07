@@ -1,0 +1,4 @@
+{
+  "application_type": "erc20",
+  "description": "Rust/WASM ERC20-style token called from Solidity."
+}

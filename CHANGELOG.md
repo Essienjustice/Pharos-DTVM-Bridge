@@ -6,7 +6,9 @@
 
 - End-to-end deterministic pipeline for Pharos DTVM cross-VM contract generation and simulation.
 - Planner stage for interpreting natural-language cross-VM intents.
-- Generator stage for Solidity caller and Rust/WASM target artifacts.
+- Specification builder for ERC20, NFT, voting, escrow, oracle, and staking application specs.
+- Template-backed generator stage for materially different Solidity caller and Rust/WASM target artifacts.
+- Mock compiler stage for deterministic generated-source validation.
 - Validator stage for ABI selector compatibility checks.
 - Deployer stage with WASM-first mock deployment ordering.
 - Tracer stage with trace-compatible cross-VM call output.

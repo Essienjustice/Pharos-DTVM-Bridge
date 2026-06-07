@@ -1,0 +1,4 @@
+{
+  "application_type": "oracle",
+  "description": "Rust/WASM oracle feed contract called from Solidity."
+}

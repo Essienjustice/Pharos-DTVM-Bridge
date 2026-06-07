@@ -35,9 +35,9 @@ class MockRuntime:
     def deploy_evm(self, contract_name: str, wasm_address: str) -> tuple[str, str, dict[str, str] | None]:
         if self.simulation_mode == "deploy_order_error":
             failure = self.failure(
-                "DEPLOY_ORDER",
+                "DEPLOY_ORDER_ERROR",
                 "deployer",
-                "EVM caller deployment was attempted before a valid WASM target was available.",
+                "EVM caller targets an address with no WASM bytecode. WASM must be deployed first.",
             )
             return "", "", failure
 
@@ -88,7 +88,7 @@ class MockRuntime:
             failure = self.failure(
                 "WASM_REVERT",
                 "tracer",
-                "WASM contract execution reverted after cross-VM dispatch.",
+                "WASM reverted: 'Insufficient balance' (Error(string), ABI-decoded)",
             )
             return {
                 "tx_hash": tx_hash,
@@ -108,6 +108,39 @@ class MockRuntime:
                             "to": wasm_address,
                             "input": function,
                             "output": "0x08c379a0",
+                            "error": failure["error_type"],
+                            "decoded_error": "Insufficient balance",
+                        }
+                    ],
+                },
+            }
+
+        if self.simulation_mode == "gas_exhaustion":
+            failure = self.failure(
+                "GAS_EXHAUSTION",
+                "tracer",
+                "Transaction gas_used equals gas_limit. Cross-VM calls cost more gas than same-VM calls. Increase gas limit.",
+            )
+            return {
+                "tx_hash": tx_hash,
+                "output_value": None,
+                "failure": failure,
+                "call_tree": {
+                    "type": "CALL",
+                    "from": _address(999),
+                    "to": evm_address,
+                    "input": evm_method,
+                    "output": "0x",
+                    "error": failure["error_type"],
+                    "gas_used": 500000,
+                    "gas_limit": 500000,
+                    "calls": [
+                        {
+                            "type": "CALL",
+                            "from": evm_address,
+                            "to": wasm_address,
+                            "input": function,
+                            "output": "0x",
                             "error": failure["error_type"],
                         }
                     ],

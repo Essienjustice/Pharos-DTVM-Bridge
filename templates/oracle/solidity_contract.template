@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+{{solidity_interface}}
+
+contract {{evm_contract}} {
+    {{interface_name}} public immutable target;
+
+    event CrossVMOracle(address indexed target, bytes4 indexed selector);
+
+    constructor(address target_) {
+        target = {{interface_name}}(target_);
+    }
+
+{{solidity_wrappers}}
+}

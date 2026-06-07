@@ -73,6 +73,18 @@ Run the branded wrapper:
 python bin/pharos-dtvm-bridge.py "Write ERC20 in Rust and call from Solidity"
 ```
 
+Try a different generated application:
+
+```bash
+python bin/pharos-dtvm-bridge.py "Build a voting contract callable from Solidity"
+```
+
+Expected behavior:
+
+- ERC20 prompts produce `RustERC20` and `SolidityERC20Caller`.
+- Voting prompts produce `RustVoting` and `SolidityVotingCaller`.
+- Final JSON includes `application_type`, `spec`, `contracts`, and generated ABI metadata.
+
 Run a deterministic failure:
 
 ```bash
@@ -92,6 +104,12 @@ python -m compileall cli.py engine demo bin
 ```
 
 Expected behavior: command completes without syntax errors.
+
+Run the archetype generation tests:
+
+```bash
+python -m unittest discover tests
+```
 
 ## Troubleshooting
 

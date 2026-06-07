@@ -1,0 +1,4 @@
+{
+  "application_type": "staking",
+  "description": "Rust/WASM staking rewards contract called from Solidity."
+}

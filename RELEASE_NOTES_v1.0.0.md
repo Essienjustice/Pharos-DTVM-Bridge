@@ -2,7 +2,7 @@
 
 ## Project Summary
 
-`pharos-dtvm-bridge` is a Cross-VM AI Contract Agent for Pharos DTVM. It converts a natural-language request into Solidity + Rust/WASM artifacts, validates ABI compatibility, simulates WASM-first deployment, and produces trace-compatible output.
+`pharos-dtvm-bridge` is a Cross-VM AI Contract Agent for Pharos DTVM. It converts a natural-language request into specification-driven Solidity + Rust/WASM artifacts, validates ABI compatibility, simulates WASM-first deployment, and produces trace-compatible output.
 
 ## Why It Matters for Pharos
 
@@ -11,7 +11,9 @@ Pharos DTVM enables Solidity/EVM and Rust/WASM contracts to interact in one exec
 ## Major Features
 
 - Natural-language CLI workflow
-- Planner -> generator -> validator -> deployer -> tracer pipeline
+- Planner -> spec builder -> generator -> validator -> compiler -> deployer -> tracer pipeline
+- ERC20, NFT, voting, escrow, oracle, and staking archetype generation
+- Template-backed Solidity, Rust/WASM, and ABI outputs
 - Deterministic mock runtime
 - Human-readable logs plus structured JSON output
 - Failure simulation for ABI mismatch, WASM revert, and deploy-order errors

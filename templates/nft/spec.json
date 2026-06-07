@@ -1,0 +1,4 @@
+{
+  "application_type": "nft",
+  "description": "Rust/WASM NFT ownership contract called from Solidity."
+}

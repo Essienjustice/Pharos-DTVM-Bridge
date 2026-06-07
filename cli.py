@@ -4,6 +4,8 @@ import argparse
 import json
 
 from engine import AgentRequest, run_pipeline
+from presentation import print_progressive_logs
+from presentation_config import DEFAULT_PRESENTATION_DELAY
 
 
 def main() -> int:
@@ -13,8 +15,19 @@ def main() -> int:
     parser.add_argument(
         "--simulate",
         default="success",
-        choices=["success", "abi_mismatch", "wasm_revert", "deploy_order_error"],
+        choices=["success", "abi_mismatch", "wasm_revert", "deploy_order_error", "gas_exhaustion"],
         help="Deterministic mock runtime scenario to execute.",
+    )
+    parser.add_argument(
+        "--presentation",
+        action="store_true",
+        help="Print pipeline logs progressively for demos and video recording.",
+    )
+    parser.add_argument(
+        "--presentation-delay",
+        type=float,
+        default=DEFAULT_PRESENTATION_DELAY,
+        help="Delay in seconds between log lines when --presentation is enabled.",
     )
     args = parser.parse_args()
 
@@ -24,8 +37,12 @@ def main() -> int:
         simulation_mode=args.simulate,
     )
     result = run_pipeline(request)
-    for line in result["logs"]:
-        print(line)
+    if args.presentation:
+        print_progressive_logs(
+            result["logs"],
+            presentation=args.presentation,
+            delay=args.presentation_delay,
+        )
     print(json.dumps(result, indent=2))
     return 0
 

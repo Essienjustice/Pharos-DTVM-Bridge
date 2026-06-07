@@ -1,7 +1,12 @@
 from .pipeline import run_pipeline
 from .schema import (
     AgentRequest,
+    ApplicationSpec,
+    CompilationResult,
+    ContractSpec,
     DeploymentResult,
+    FunctionParam,
+    FunctionSpec,
     GeneratedArtifacts,
     PlanOutput,
     TraceResult,
@@ -10,7 +15,12 @@ from .schema import (
 
 __all__ = [
     "AgentRequest",
+    "ApplicationSpec",
+    "CompilationResult",
+    "ContractSpec",
     "DeploymentResult",
+    "FunctionParam",
+    "FunctionSpec",
     "GeneratedArtifacts",
     "PlanOutput",
     "TraceResult",

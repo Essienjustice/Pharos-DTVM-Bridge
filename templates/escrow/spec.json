@@ -1,0 +1,4 @@
+{
+  "application_type": "escrow",
+  "description": "Rust/WASM escrow contract called from Solidity."
+}

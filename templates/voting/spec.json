@@ -1,0 +1,4 @@
+{
+  "application_type": "voting",
+  "description": "Rust/WASM voting contract called from Solidity."
+}

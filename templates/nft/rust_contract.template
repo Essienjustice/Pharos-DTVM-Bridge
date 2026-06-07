@@ -1,0 +1,19 @@
+#![cfg_attr(not(feature = "export-abi"), no_main)]
+
+extern crate alloc;
+
+use stylus_sdk::{alloy_primitives::{Address, B256, U256}, prelude::*, sol};
+
+sol! { interface ITarget { function crossVmDispatch(bytes32 selector) external returns (uint256); } }
+
+sol_storage! {
+    #[entrypoint]
+    pub struct {{wasm_contract}} {
+{{storage_fields}}
+    }
+}
+
+#[public]
+impl {{wasm_contract}} {
+{{rust_methods}}
+}

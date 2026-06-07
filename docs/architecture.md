@@ -18,8 +18,19 @@ User prompt ------> | cli.py / bin   |
         |                   |                   |
         v                   v                   v
   +-----------+       +-----------+       +-------------+
-  | Planner   | ----> | Generator | ----> | Validator   |
-  +-----------+       +-----------+       +-------------+
+  | Planner   | ----> | Spec      | ----> | Generator   |
+  +-----------+       | Builder   |       +------+------+
+                      +-----------+              |
+                                                 v
+                                          +-------------+
+                                          | Validator   |
+                                          +------+------+
+                                                |
+                                                v
+                                        +---------------+
+                                        | Compiler      |
+                                        | Mock syntax   |
+                                        +-------+-------+
                                                 |
                                                 v
                                         +---------------+
@@ -47,7 +58,7 @@ User prompt ------> | cli.py / bin   |
 
 ### Planner
 
-`engine/planner.py` interprets the intent and chooses:
+`engine/planner.py` coordinates planning around the structured application specification and chooses:
 
 - action
 - direction
@@ -55,13 +66,32 @@ User prompt ------> | cli.py / bin   |
 - function signatures
 - network metadata
 
+### Spec Builder
+
+`engine/spec_builder.py` converts a natural-language prompt into an `ApplicationSpec`.
+
+`engine/archetypes.py` classifies prompts into supported archetypes:
+
+- ERC20
+- NFT
+- Voting
+- Escrow
+- Oracle
+- Staking
+
+The application spec is the source of truth for generated contract names, storage models, events, functions, and ABI definitions.
+
 ### Generator
 
-`engine/generator.py` creates in-memory Solidity and Rust/WASM artifact representations and selector metadata.
+`engine/generator.py` renders templates from `templates/` into in-memory Solidity and Rust/WASM artifact representations and selector metadata.
 
 ### Validator
 
 `engine/validator.py` checks that the generated Solidity and Rust artifacts share the expected function names and selectors.
+
+### Compiler
+
+`engine/compiler.py` provides a mock compilation layer for deterministic syntax checks. It also contains a real-mode command runner for `forge build`, `cargo check`, and `cargo stylus check` when external tools are available.
 
 ### Deployer
 
@@ -82,6 +112,8 @@ User prompt ------> | cli.py / bin   |
 
 It is the only runtime used by the submission demo.
 
+`engine/runtime/base.py` defines the runtime protocol, `engine/runtime/mock_runtime.py` re-exports the deterministic mock runtime, and `engine/runtime/real_runtime.py` provides extensible command placeholders for live Pharos tooling.
+
 ## Data Flow
 
 The pipeline uses dataclasses from `engine/schema.py`:
@@ -89,8 +121,10 @@ The pipeline uses dataclasses from `engine/schema.py`:
 ```text
 AgentRequest
   -> PlanOutput
+  -> ApplicationSpec
   -> GeneratedArtifacts
   -> ValidationReport
+  -> CompilationResult
   -> DeploymentResult
   -> TraceResult
 ```
